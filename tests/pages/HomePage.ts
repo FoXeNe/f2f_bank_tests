@@ -11,6 +11,8 @@ export class HomePage {
   readonly cancel: Locator
   readonly transferComplete: Locator
   readonly newTransfer: Locator
+  readonly phoneError: Locator
+  readonly snackbar: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -19,10 +21,12 @@ export class HomePage {
     this.purpose = page.getByRole('textbox', { name: 'e.g. debt repayment' })
     this.sendButton = page.getByRole('button', { name: 'Send' })
     this.cancel = page.getByRole('button', { name: 'Cancel' })
-    this.phoneError = page.getByText('Phone number is required')
-    this.transferComplete = page.getByText('Transfer completed', { exact: true })
+    this.transferComplete = page.getByText('Transfer completed', { exact: true }) // без exact true есть совпадение со снекбаром
     this.newTransfer = page.getByRole('button', { name: 'New transfer' })
     this.navBar = new NavBar(page)
+    // так как у снекбара и поля ошибки можут быть разный текст ошибки, лучше искать их по css классу
+    this.phoneError = page.locator('.field-error')
+    this.snackbar = page.locator('.snackbar')
   }
 
   async goto() {
