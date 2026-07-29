@@ -27,4 +27,16 @@ test.describe("Home", () => {
 
     await expect(homePage.sendButton).toBeVisible()
   })
+
+  test('[Низкий] ошибка Phone Number при заполненных Amount и Purpose', async({ homePage, page }) => {
+    await homePage.transfer('', '1', 'test')
+
+    await expect(homePage.phoneError).toBeVisible()
+  })
+
+  test('[Низкий] ошибка Phone Number при отведении фокуса с поля Phone Number', async({ homePage, page} ) => {
+    await homePage.blurPhoneNumber()
+
+    await expect(homePage.phoneError).toBeVisible()
+  })
 })

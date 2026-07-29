@@ -43,4 +43,9 @@ export class HomePage {
     await this.fill(phone, amount, purpose)
     await this.send()
   }
+
+  async blurPhoneNumber() {
+    await this.number.focus()
+    await this.number.blur()
+  }
 }
