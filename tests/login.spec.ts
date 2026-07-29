@@ -12,7 +12,7 @@ test.describe('Login', () => {
   test('[Высокий] ошибка при неверном пароле', async ({ loginPage, page }) => {
     await loginPage.login('user@example.com', 'wrongpassword')
 
-    await expect(loginPage.loginFailed).toBeVisible()
+    await expect(loginPage.errorMessage).toBeVisible()
   })
 
   test('[Средний] редирект авторизованного пользователя', async ({ loginPage, page }) => {

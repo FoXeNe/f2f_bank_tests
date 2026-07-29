@@ -5,14 +5,14 @@ export class LoginPage {
   readonly emailInput: Locator
   readonly passwordInput: Locator
   readonly loginButton: Locator
-  readonly loginFailed: Locator
+  readonly errorMessage: Locator
 
   constructor(page: Page) {
     this.page = page
     this.emailInput = page.getByRole('textbox', { name: 'Type your email' })
     this.passwordInput = page.getByRole('textbox', { name: 'Type your password' })
     this.loginButton = page.getByRole('button', { name: 'Login' })
-    this.loginFailed = page.getByText('Login failed')
+    this.errorMessage = page.getByText('Login failed')
   }
 
   async goto() {
