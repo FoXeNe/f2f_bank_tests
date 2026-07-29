@@ -1,4 +1,3 @@
-import { LoginPage } from './pages/LoginPage'
 import { test, expect } from './fixtures'
 
 test.use({ storageState: { cookies: [], origins: [] }})
