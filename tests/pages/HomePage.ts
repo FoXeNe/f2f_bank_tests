@@ -9,6 +9,8 @@ export class HomePage {
   readonly purpose: Locator
   readonly sendButton: Locator
   readonly cancel: Locator
+  readonly transferComplete: Locator
+  readonly newTransfer: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -18,6 +20,9 @@ export class HomePage {
     this.sendButton = page.getByRole('button', { name: 'Send' })
     this.cancel = page.getByRole('button', { name: 'Cancel' })
     this.phoneError = page.getByText('Phone number is required')
+    this.transferComplete = page.getByText('Transfer completed', { exact: true })
+    this.newTransfer = page.getByRole('button', { name: 'New transfer' })
+    this.navBar = new NavBar(page)
   }
 
   async goto() {
@@ -26,5 +31,16 @@ export class HomePage {
 
   async send() {
     await this.sendButton.click()
+  }
+
+  async fill(phone: string, amount: string, purpose: string) {
+    await this.number.fill(phone)
+    await this.amount.fill(amount)
+    await this.purpose.fill(purpose)
+  }
+
+  async transfer(phone: string, amount: string, purpose: string) {
+    await this.fill(phone, amount, purpose)
+    await this.send()
   }
 }
