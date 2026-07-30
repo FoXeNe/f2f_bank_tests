@@ -31,7 +31,7 @@ test.describe("Home", () => {
     await expect(homePage.sendButton).toBeVisible()
   })
 
-  test('[Средний] нажатие кнопки нового трансфера после успешного транфсера', async ({ homePage, page }) => {
+  test('[Средний] нажатие кнопки нового трансфера после успешного трансфера', async ({ homePage, page }) => {
     await homePage.transfer('+7 999 123 45 67', '1', 'test')
     await homePage.newTransfer.click()
 

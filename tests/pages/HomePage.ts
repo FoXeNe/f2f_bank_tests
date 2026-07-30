@@ -4,11 +4,11 @@ import { NavBar } from './NavBar'
 export class HomePage {
   readonly page: Page
   readonly navBar: NavBar
-  readonly number: Locator
-  readonly amount: Locator
-  readonly purpose: Locator
+  readonly phoneInput: Locator
+  readonly amountInput: Locator
+  readonly purposeInput: Locator
   readonly sendButton: Locator
-  readonly cancel: Locator
+  readonly cancelButton: Locator
   readonly transferComplete: Locator
   readonly newTransfer: Locator
   readonly phoneError: Locator
@@ -16,11 +16,11 @@ export class HomePage {
 
   constructor(page: Page) {
     this.page = page
-    this.number = page.getByRole('textbox', { name: '+7 999 123-45-' })
-    this.amount = page.getByRole('spinbutton', { name: '0.00' })
-    this.purpose = page.getByRole('textbox', { name: 'e.g. debt repayment' })
+    this.phoneInput = page.getByRole('textbox', { name: '+7 999 123-45-' })
+    this.amountInput = page.getByRole('spinbutton', { name: '0.00' })
+    this.purposeInput = page.getByRole('textbox', { name: 'e.g. debt repayment' })
     this.sendButton = page.getByRole('button', { name: 'Send' })
-    this.cancel = page.getByRole('button', { name: 'Cancel' })
+    this.cancelButton = page.getByRole('button', { name: 'Cancel' })
     this.transferComplete = page.getByText('Transfer completed', { exact: true }) // без exact true есть совпадение со снекбаром
     this.newTransfer = page.getByRole('button', { name: 'New transfer' })
     this.navBar = new NavBar(page)
@@ -38,9 +38,9 @@ export class HomePage {
   }
 
   async fill(phone: string, amount: string, purpose: string) {
-    await this.number.fill(phone)
-    await this.amount.fill(amount)
-    await this.purpose.fill(purpose)
+    await this.phoneInput.fill(phone)
+    await this.amountInput.fill(amount)
+    await this.purposeInput.fill(purpose)
   }
 
   async transfer(phone: string, amount: string, purpose: string) {
@@ -49,7 +49,7 @@ export class HomePage {
   }
 
   async blurPhoneNumber() {
-    await this.number.focus()
-    await this.number.blur()
+    await this.phoneInput.focus()
+    await this.phoneInput.blur()
   }
 }
