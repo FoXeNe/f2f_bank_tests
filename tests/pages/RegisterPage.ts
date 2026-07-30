@@ -29,5 +29,17 @@ export class RegisterPage {
     await this.emailInput.fill(email)
     await this.passwordInput.fill(pass)
     await this.registerButton.click()
+
+    await this.page.waitForURL('**/login')
+  }
+
+  async createNewUser() {
+    const name = 'Ivan'
+    const surname = 'Ivanov'
+    const email = `${Date.now()}@example.com`
+    const password = '123'
+    await this.register(name, surname, email, password)
+
+    return { email, password }
   }
 }
