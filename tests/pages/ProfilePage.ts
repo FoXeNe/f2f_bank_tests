@@ -9,9 +9,9 @@ export class ProfilePage {
   constructor(page: Page) {
     this.page = page
     // в данном случае удобнее использовать регулярку, так как мы не знаем что идет после поля
-    this.nameField = page.getByText(/Name:\s\D+/)
-    this.surnameField = page.getByText(/Surname:\s\D+/)
-    this.emailField = page.getByText(/Email:\s\D+/)
+    this.nameField = page.getByText(/Name:\s.*/)
+    this.surnameField = page.getByText(/Surname:\s.*/)
+    this.emailField = page.getByText(/Email:\s.*/)
   }
 
   async goto() {
