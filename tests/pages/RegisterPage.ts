@@ -40,6 +40,9 @@ export class RegisterPage {
     const password = '123'
     await this.register(name, surname, email, password)
 
-    return { email, password }
+    process.env.TEST_USER_NAME = name
+    process.env.TEST_USER_SURNAME = surname
+    process.env.TEST_USER_EMAIL = email
+    process.env.TEST_USER_PASSWORD = password
   }
 }
