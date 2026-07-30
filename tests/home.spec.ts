@@ -4,20 +4,20 @@ test.describe("Home", () => {
   // тесты в одном аккаунте меняют общий баланс, без serial возникает race condition
   test.describe.configure({ mode: 'serial' })
 
-  test('[Критический] трансфер с заполненными полями', async ({ homePage, page }) => {
+  test('[Критический] трансфер с заполненными полями', async ({ homePage }) => {
     await homePage.transfer('+7 999 123 45 67', '1', 'test')
 
     await expect(homePage.transferComplete).toBeVisible()
   })
 
-  test('[Критический] смена баланса после успешного трансфера', async ({ homePage, page }) => {
+  test('[Критический] смена баланса после успешного трансфера', async ({ homePage }) => {
     const beforeAmount = Number((await homePage.navBar.balance.textContent())?.slice(9)) // берем строку "before: <num>" и отсекаем все до <num>
     await homePage.transfer('+7 999 123 45 67', '1', 'test')
 
     await expect(homePage.navBar.balance).toHaveText(`Balance: ${beforeAmount - 1}`)
   })
 
-  test('[Высокий] ошибка при недостаточном балансе', async ({ homePage, page }) => {
+  test('[Высокий] ошибка при недостаточном балансе', async ({ homePage }) => {
     const currentBalance = Number((await homePage.navBar.balance.textContent())?.slice(9))
     await homePage.transfer('+7 999 123 45 67', `${currentBalance + 1}`, 'test')
 
@@ -31,32 +31,32 @@ test.describe("Home", () => {
     await expect(homePage.sendButton).toBeVisible()
   })
 
-  test('[Средний] нажатие кнопки нового трансфера после успешного трансфера', async ({ homePage, page }) => {
+  test('[Средний] нажатие кнопки нового трансфера после успешного трансфера', async ({ homePage }) => {
     await homePage.transfer('+7 999 123 45 67', '1', 'test')
     await homePage.newTransfer.click()
 
     await expect(homePage.sendButton).toBeVisible()
   })
 
-  test('[Средний] ошибка при сумме перевода <= 0', async ({ homePage, page }) => {
+  test('[Средний] ошибка при сумме перевода <= 0', async ({ homePage }) => {
     await homePage.transfer('+7 999 123 45 67', '0', 'test')
 
     await expect(homePage.snackbar).toHaveText('Amount must be greater than zero')
   })
 
-  test('[Низкий] ошибка Phone Number при заполненных Amount и Purpose', async ({ homePage, page }) => {
+  test('[Низкий] ошибка Phone Number при заполненных Amount и Purpose', async ({ homePage }) => {
     await homePage.transfer('', '1', 'test')
 
     await expect(homePage.phoneError).toHaveText('Phone number is required')
   })
 
-  test('[Низкий] ошибка Phone Number при отведении фокуса с поля Phone Number', async ({ homePage, page }) => {
+  test('[Низкий] ошибка Phone Number при отведении фокуса с поля Phone Number', async ({ homePage }) => {
     await homePage.blurPhoneNumber()
 
     await expect(homePage.phoneError).toHaveText('Phone number is required')
   })
 
-  test('[Низкий] ошибка при неверном формате телефона', async ({ homePage, page }) => {
+  test('[Низкий] ошибка при неверном формате телефона', async ({ homePage }) => {
     await homePage.transfer('89991234567', '1', 'test')
 
     await expect(homePage.phoneError).toHaveText('Must start with + and country code. Example: +7 999 123-45-67')
