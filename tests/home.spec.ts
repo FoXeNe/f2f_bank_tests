@@ -1,8 +1,6 @@
 import { test, expect } from './fixtures'
 
 test.describe("Home", () => {
-  // тесты в одном аккаунте меняют общий баланс, без serial возникает race condition
-  test.describe.configure({ mode: 'serial' })
 
   test('[Критический] трансфер с заполненными полями', async ({ homePage }) => {
     await homePage.transfer('+7 999 123 45 67', '1', 'test')
