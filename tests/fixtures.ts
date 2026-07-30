@@ -3,12 +3,14 @@ import { LoginPage } from './pages/LoginPage'
 import { HomePage } from './pages/HomePage'
 import { ProfilePage } from './pages/ProfilePage'
 import { TransactionsPage } from './pages/TransactionsPage'
+import { RegisterPage } from './pages/RegisterPage'
 
 type MyFixtures = {
   loginPage: LoginPage
   homePage: HomePage
   profilePage: ProfilePage
   transactionsPage: TransactionsPage
+  registerPage: RegisterPage
 }
 
 export const test = base.extend<MyFixtures>({
@@ -31,6 +33,11 @@ export const test = base.extend<MyFixtures>({
     const transactionsPage = new TransactionsPage(page)
     await transactionsPage.goto()
     await use(transactionsPage)
+  },
+  registerPage: async ({ page }, use) => {
+    const registerPage = new RegisterPage(page)
+    await registerPage.goto()
+    await use(registerPage)
   }
 })
 
