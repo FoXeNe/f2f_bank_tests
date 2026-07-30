@@ -1,6 +1,6 @@
 import { test, expect } from './fixtures'
 
-test.use({ storageState: { cookies: [], origins: [] }})
+test.use({ storageState: { cookies: [], origins: [] } })
 
 test.describe('Login', () => {
   test('[Критический] успешный вход с правильными данными', async ({ loginPage, page }) => {
@@ -9,7 +9,7 @@ test.describe('Login', () => {
     await expect(page).toHaveURL('/')
   })
 
-  test('[Высокий] ошибка при неверном пароле', async ({ loginPage, page }) => {
+  test('[Высокий] ошибка при неверном пароле', async ({ loginPage }) => {
     await loginPage.login('user@example.com', 'wrongpassword')
 
     await expect(loginPage.errorMessage).toBeVisible()
