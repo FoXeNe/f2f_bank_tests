@@ -3,16 +3,20 @@ import { test, expect } from './fixtures'
 test.describe("Home", () => {
 
   test('[Критический] трансфер с заполненными полями', async ({ homePage }) => {
-    await homePage.transfer('+7 999 123 45 67', '1', 'test')
+    await homePage.upAndTransfer('+7 999 123 45 67', '1', 'test')
 
     await expect(homePage.transferComplete).toBeVisible()
   })
 
   test('[Критический] смена баланса после успешного трансфера', async ({ homePage }) => {
-    const beforeAmount = Number((await homePage.navBar.balance.textContent())?.slice(9)) // берем строку "before: <num>" и отсекаем все до <num>
-    await homePage.transfer('+7 999 123 45 67', '1', 'test')
+    const balanceText = await homePage.navBar.balance.innerText()
 
-    await expect(homePage.navBar.balance).toHaveText(`Balance: ${beforeAmount - 1}`)
+    const parts = balanceText.split(':')
+    const beforeAmount = Number(parts[1].trim())
+
+    await homePage.upAndTransfer('+7 999 123 45 67', '1', 'test')
+
+    await expect(homePage.navBar.balance).toHaveText(`Balance: ${beforeAmount}`)
   })
 
   test('[Высокий] ошибка при недостаточном балансе', async ({ homePage }) => {
@@ -30,7 +34,7 @@ test.describe("Home", () => {
   })
 
   test('[Средний] нажатие кнопки нового трансфера после успешного трансфера', async ({ homePage }) => {
-    await homePage.transfer('+7 999 123 45 67', '1', 'test')
+    await homePage.upAndTransfer('+7 999 123 45 67', '1', 'test')
     await homePage.newTransfer.click()
 
     await expect(homePage.sendButton).toBeVisible()
@@ -43,7 +47,7 @@ test.describe("Home", () => {
   })
 
   test('[Низкий] ошибка Phone Number при заполненных Amount и Purpose', async ({ homePage }) => {
-    await homePage.transfer('', '1', 'test')
+    await homePage.upAndTransfer('', '1', 'test')
 
     await expect(homePage.phoneError).toHaveText('Phone number is required')
   })
@@ -55,7 +59,7 @@ test.describe("Home", () => {
   })
 
   test('[Низкий] ошибка при неверном формате телефона', async ({ homePage }) => {
-    await homePage.transfer('89991234567', '1', 'test')
+    await homePage.upAndTransfer('89991234567', '1', 'test')
 
     await expect(homePage.phoneError).toHaveText('Must start with + and country code. Example: +7 999 123-45-67')
   })

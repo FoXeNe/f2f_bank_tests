@@ -1,9 +1,11 @@
 import type { Page, Locator } from '@playwright/test'
 import { NavBar } from './NavBar'
+import { TransactionsPage } from './TransactionsPage'
 
 export class HomePage {
   readonly page: Page
   readonly navBar: NavBar
+  readonly transactionsPage: TransactionsPage
   readonly phoneInput: Locator
   readonly amountInput: Locator
   readonly purposeInput: Locator
@@ -16,15 +18,16 @@ export class HomePage {
 
   constructor(page: Page) {
     this.page = page
+    this.navBar = new NavBar(page)
+    this.transactionsPage = new TransactionsPage(page)
+
     this.phoneInput = page.getByRole('textbox', { name: '+7 999 123-45-' })
     this.amountInput = page.getByRole('spinbutton', { name: '0.00' })
     this.purposeInput = page.getByRole('textbox', { name: 'e.g. debt repayment' })
     this.sendButton = page.getByRole('button', { name: 'Send' })
     this.cancelButton = page.getByRole('button', { name: 'Cancel' })
-    this.transferComplete = page.getByText('Transfer completed', { exact: true }) // без exact true есть совпадение со снекбаром
+    this.transferComplete = page.getByText('Transfer completed', { exact: true })
     this.newTransfer = page.getByRole('button', { name: 'New transfer' })
-    this.navBar = new NavBar(page)
-    // так как у снекбара и поля ошибки можут быть разный текст ошибки, лучше искать их по css классу
     this.phoneError = page.locator('.field-error')
     this.snackbar = page.locator('.snackbar')
   }
@@ -41,6 +44,14 @@ export class HomePage {
     await this.phoneInput.fill(phone)
     await this.amountInput.fill(amount)
     await this.purposeInput.fill(purpose)
+  }
+
+  async upAndTransfer(phone: string, amount: string, purpose: string) {
+    await this.transactionsPage.goto()
+    await this.transactionsPage.addBalance(amount)
+
+    await this.goto()
+    await this.transfer(phone, amount, purpose)
   }
 
   async transfer(phone: string, amount: string, purpose: string) {
