@@ -32,4 +32,10 @@ test.describe('Login', () => {
 
     await expect(page).toHaveURL('/login')
   })
+
+  test('[Средний] вход с несуществующим пользователем', async ({ loginPage, page }) => {
+    await loginPage.login('nonexist@example.com', process.env.TEST_USER_PASSWORD!)
+
+    await expect(page).toHaveURL('/login')
+  })
 })
