@@ -4,10 +4,12 @@
 
 ## Как запустить приложение
 
-### Быстрый старт для Linux (i use arch btw)
+### Быстрый старт для Linux
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/FoXeNe/f2f_bank_tests/main/setup.sh | bash
+wget https://raw.githubusercontent.com/FoXeNe/f2f_bank_tests/main/setup.sh
+chmod +x setup.sh
+./setup.sh
 ```
 
 ### Запуск из исходников
